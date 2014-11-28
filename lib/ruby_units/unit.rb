@@ -1104,40 +1104,40 @@ module RubyUnits
     # @return [Numeric,Unit]
     def abs
       return @scalar.abs if self.unitless?
-      return RubyUnits::Unit.new(@scalar.abs, @numerator, @denominator)
+      return RubyUnits::Unit.new(:scalar => @scalar.abs, :numerator => @numerator, :denominator => @denominator, :signature => @signature)
     end
 
     # ceil of a unit
     # @return [Numeric,Unit]
     def ceil
       return @scalar.ceil if self.unitless?
-      return RubyUnits::Unit.new(@scalar.ceil, @numerator, @denominator)
+      return RubyUnits::Unit.new(:scalar => @scalar.ceil, :numerator => @numerator, :denominator => @denominator, :signature => @signature)
     end
 
     # @return [Numeric,Unit]
     def floor
       return @scalar.floor if self.unitless?
-      return RubyUnits::Unit.new(@scalar.floor, @numerator, @denominator)
+      return RubyUnits::Unit.new(:scalar => @scalar.floor, :numerator => @numerator, :denominator => @denominator, :signature => @signature)
     end
 
     if RUBY_VERSION < '1.9'
       # @return [Numeric,Unit]
       def round
         return @scalar.round if self.unitless?
-        return RubyUnits::Unit.new(@scalar.round, @numerator, @denominator)
+        return RubyUnits::Unit.new(:scalar => @scalar.round, :numerator => @numerator, :denominator => @denominator, :signature => @signature)
       end
     else
       # @return [Numeric,Unit]
       def round(ndigits = 0)
         return @scalar.round(ndigits) if self.unitless?
-        return RubyUnits::Unit.new(@scalar.round(ndigits), @numerator, @denominator)
+        return RubyUnits::Unit.new(:scalar => @scalar.round(ndigits), :numerator => @numerator, :denominator => @denominator, :signature => @signature)
       end
     end
 
     # @return [Numeric, Unit]
     def truncate
       return @scalar.truncate if self.unitless?
-      return RubyUnits::Unit.new(@scalar.truncate, @numerator, @denominator)
+      return RubyUnits::Unit.new(:scalar => @scalar.truncate, :numerator => @numerator, :denominator => @denominator, :signature => @signature)
     end
 
     # returns next unit in a range.  '1 mm'.unit.succ #=> '2 mm'.unit
@@ -1146,7 +1146,7 @@ module RubyUnits
     # @raise [ArgumentError] when scalar is not equal to an integer
     def succ
       raise ArgumentError, "Non Integer Scalar" unless @scalar == @scalar.to_i
-      return RubyUnits::Unit.new(@scalar.to_i.succ, @numerator, @denominator)
+      return RubyUnits::Unit.new(:scalar => @scalar.to_i.succ, :numerator => @numerator, :denominator => @denominator, :signature => @signature)
     end
 
     alias :next :succ
@@ -1157,7 +1157,7 @@ module RubyUnits
     # @raise [ArgumentError] when scalar is not equal to an integer
     def pred
       raise ArgumentError, "Non Integer Scalar" unless @scalar == @scalar.to_i
-      return RubyUnits::Unit.new(@scalar.to_i.pred, @numerator, @denominator)
+      return RubyUnits::Unit.new(:scalar => @scalar.to_i.pred, :numerator => @numerator, :denominator => @denominator, :signature => @signature)
     end
 
     # Tries to make a Time object from current unit.  Assumes the current unit hold the duration in seconds from the epoch.
