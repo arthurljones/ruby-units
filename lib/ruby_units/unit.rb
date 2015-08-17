@@ -1006,28 +1006,38 @@ module RubyUnits
     alias :>> :convert_to
     alias :to :convert_to
 
+    def scalar_convertible(type)
+      if self.unitless?
+        return @scalar
+      else
+        result = self >> Unit.new(1) #TODO: There's probably a better way to attempt reducing to unitless
+        if result.unitless?
+          return result.scalar
+        else
+          raise RuntimeError, "Cannot convert '#{self.to_s}' to #{type} unless unitless.  Use Unit#scalar"
+        end
+      end
+    end
+
     # converts the unit back to a float if it is unitless.  Otherwise raises an exception
     # @return [Float]
     # @raise [RuntimeError] when not unitless
     def to_f
-      return @scalar.to_f if self.unitless?
-      raise RuntimeError, "Cannot convert '#{self.to_s}' to Float unless unitless.  Use Unit#scalar"
+      scalar_convertible("Float").to_f
     end
 
     # converts the unit back to a complex if it is unitless.  Otherwise raises an exception
     # @return [Complex]
     # @raise [RuntimeError] when not unitless
     def to_c
-      return Complex(@scalar) if self.unitless?
-      raise RuntimeError, "Cannot convert '#{self.to_s}' to Complex unless unitless.  Use Unit#scalar"
+      return Complex(scalar_convertible("Complex"))
     end
 
     # if unitless, returns an int, otherwise raises an error
     # @return [Integer]
     # @raise [RuntimeError] when not unitless
     def to_i
-      return @scalar.to_int if self.unitless?
-      raise RuntimeError, "Cannot convert '#{self.to_s}' to Integer unless unitless.  Use Unit#scalar"
+      return scalar_convertible("Integer")
     end
 
     alias :to_int :to_i
@@ -1036,8 +1046,7 @@ module RubyUnits
     # @return [Rational]
     # @raise [RuntimeError] when not unitless
     def to_r
-      return @scalar.to_r if self.unitless?
-      raise RuntimeError, "Cannot convert '#{self.to_s}' to Rational unless unitless.  Use Unit#scalar"
+      return scalar_convertible("Rational").to_r
     end
 
     # Returns string formatted for json
