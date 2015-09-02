@@ -1058,7 +1058,7 @@ module RubyUnits
     # returns the 'unit' part of the Unit object without the scalar
     # @return [String]
     def units(with_prefix = true)
-      return "" if @numerator == UNITY_ARRAY && @denominator == UNITY_ARRAY
+      return "1" if @numerator == UNITY_ARRAY && @denominator == UNITY_ARRAY
       output_numerator   = []
       output_denominator = []
       num                = @numerator.clone.compact
